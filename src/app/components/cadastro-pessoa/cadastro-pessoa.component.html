@@ -1,0 +1,113 @@
+<form (ngSubmit)="onSubmit()" #actorForm="ngForm">
+    <!-- Nome -->
+    <div class="sm:col-span-4">
+        <label for="name" class="block text-sm/6 font-medium text-gray-900">Nome</label>
+        <div class="mt-2">
+            <input [(ngModel)]="detalhes.name" required type="text" name="name" id="name"
+                class="block w-full py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                [ngClass]="{'border-red-500': name.invalid && submitAttempted}" #name="ngModel" />
+            <div *ngIf="(name.invalid && submitAttempted)" class="text-red-500 text-sm">
+                Campo obrigatório.
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- CPF -->
+    <div class="sm:col-span-4">
+        <label for="cpf" class="block text-sm/6 font-medium text-gray-900">CPF</label>
+        <div class="mt-2">
+            <input [(ngModel)]="detalhes.cpf" required type="text" name="cpf" id="cpf" appOnlyNumbers
+                class="block w-full py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                [ngClass]="{'border-red-500': cpf.invalid && submitAttempted || submitAttempted && !validateCPF(detalhes.cpf)}"
+                #cpf="ngModel" />
+            <div *ngIf="(cpf.invalid && submitAttempted) || (submitAttempted && !validateCPF(detalhes.cpf))"
+                class="text-red-500 text-sm">
+                CPF inválido. Deve conter apenas números e ter 11 dígitos.
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Data de Nascimento -->
+    <div class="sm:col-span-4">
+        <label for="birthdate" class="block text-sm/6 font-medium text-gray-900">Data de Nascimento</label>
+        <div class="mt-2">
+            <input [(ngModel)]="detalhes.birthdate" required type="date" name="birthdate" id="birthdate"
+                class="block w-full py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                [ngClass]="{'border-red-500': birthdate.invalid && submitAttempted}" #birthdate="ngModel" />
+            <div *ngIf="(birthdate.invalid && submitAttempted)" class="text-red-500 text-sm">
+                Data de nascimento obrigatória.
+            </div>
+        </div>
+    </div>
+
+    <!-- E-mail -->
+    <div class="sm:col-span-4">
+        <label for="email" class="block text-sm/6 font-medium text-gray-900">E-mail</label>
+        <div class="mt-2">
+            <input [(ngModel)]="detalhes.email" required type="email" name="email" id="email"
+                class="block w-full py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                [ngClass]="{'border-red-500': email.invalid && submitAttempted || submitAttempted && !validateEmail(detalhes.email)}"
+                #email="ngModel" />
+            <div *ngIf="(email.invalid && submitAttempted) || (submitAttempted && !validateEmail(detalhes.email))"
+                class="text-red-500 text-sm">
+                O e-mail deve ser válido.
+            </div>
+        </div>
+    </div>
+
+    <!-- CEP -->
+    <div class="sm:col-span-4">
+        <label for="cep" class="block text-sm/6 font-medium text-gray-900">CEP</label>
+        <div class="mt-2">
+            <input [(ngModel)]="detalhes.cep" required type="text" name="cep" id="cep" appOnlyNumbers
+                class="block w-full py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+                [ngClass]="{'border-red-500': cep.invalid && submitAttempted || submitAttempted && !detalhes.cep}"
+                #cep="ngModel" />
+            <div *ngIf="(cep.invalid && submitAttempted) || (submitAttempted && !detalhes.cep)"
+                class="text-red-500 text-sm">
+                O CEP é obrigatório e deve ser válido.
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão de Submissão -->
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="submit"
+            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            [disabled]="actorForm.invalid">Cadastrar</button>
+    </div>
+
+</form>
+
+<!-- Tabela para mostrar os dados cadastrados -->
+<table class="min-w-full mt-10 text-sm text-left text-gray-500">
+    <thead>
+        <tr>
+            <th class="px-6 py-3">Nome</th>
+            <th class="px-6 py-3">CPF</th>
+            <th class="px-6 py-3">Idade</th>
+            <th class="px-6 py-3">E-mail</th>
+            <th class="px-6 py-3">CEP</th>
+            <th class="px-6 py-3">Logradouro</th>
+            <th class="px-6 py-3">Bairro</th>
+            <th class="px-6 py-3">Cidade</th>
+            <th class="px-6 py-3">Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of people">
+            <td class="px-6 py-4">{{ person.name }}</td>
+            <td class="px-6 py-4">{{ person.cpf }}</td>
+            <td class="px-6 py-4">{{ person.age }}</td>
+            <td class="px-6 py-4">{{ person.email }}</td>
+            <td class="px-6 py-4">{{ person.cep }}</td>
+            <td class="px-6 py-4">{{ person.logradouro }}</td>
+            <td class="px-6 py-4">{{ person.bairro }}</td>
+            <td class="px-6 py-4">{{ person.cidade }}</td>
+            <td class="px-6 py-4">{{ person.estado }}</td>
+        </tr>
+    </tbody>
+</table>
